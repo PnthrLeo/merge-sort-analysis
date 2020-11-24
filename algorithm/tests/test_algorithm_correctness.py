@@ -1,8 +1,7 @@
-from algorithm import merge_sort
-
 import pytest
 import random
-
+from algorithm import merge_sort
+from numpy import float32
 
 # Set random seed for result reproducibility
 random.seed(42)
@@ -35,6 +34,16 @@ def input_1000_pos_neg():
     return arr
 
 
+@pytest.fixture
+def input_1000_float32():
+    arr = []
+    for i in range(1000):
+        num = random.uniform(-2**31, 2**31)
+        num = float32(num)
+        arr.append(num)
+    return arr
+
+
 def test_empty_arr():
     assert merge_sort([], 0, 0) == []
 
@@ -57,3 +66,7 @@ def test_neg_array(input_1000_neg):
 
 def test_pos_neg_array(input_1000_pos_neg):
     assert merge_sort(input_1000_pos_neg, 0, 999) == sorted(input_1000_pos_neg)
+
+
+def test_float32_array(input_1000_float32):
+    assert merge_sort(input_1000_float32, 0, 999) == sorted(input_1000_float32)
